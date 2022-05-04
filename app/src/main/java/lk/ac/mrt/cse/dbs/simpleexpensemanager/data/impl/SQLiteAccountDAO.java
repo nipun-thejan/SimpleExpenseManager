@@ -1,5 +1,6 @@
 package lk.ac.mrt.cse.dbs.simpleexpensemanager.data.impl;
 
+import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -22,8 +23,8 @@ public class SQLiteAccountDAO implements AccountDAO {
     }
     @Override
     public List<String> getAccountNumbersList() {
-        Cursor resultSet = db.rawQuery("Select accountNo from Account",null);
-        List<String> result = new ArrayList<String>();
+        @SuppressLint("Recycle") Cursor resultSet = db.rawQuery("Select accountNo from Account",null);
+        List<String> result = new ArrayList<>();
         resultSet.moveToFirst();
         while(!resultSet.isAfterLast())
         {
@@ -35,8 +36,8 @@ public class SQLiteAccountDAO implements AccountDAO {
 
     @Override
     public List<Account> getAccountsList() {
-        Cursor resultSet = db.rawQuery("Select * from Account;",null);
-        List<Account> result = new ArrayList<Account>();
+        @SuppressLint("Recycle") Cursor resultSet = db.rawQuery("Select * from Account;",null);
+        List<Account> result = new ArrayList<>();
         resultSet.moveToFirst();
         while(!resultSet.isAfterLast())
         {
@@ -50,7 +51,7 @@ public class SQLiteAccountDAO implements AccountDAO {
 
     @Override
     public Account getAccount(String accountNo) throws InvalidAccountException {
-        Cursor resultSet = db.rawQuery("Select * from Account where accountNo='" + accountNo+"';", null);
+        @SuppressLint("Recycle") Cursor resultSet = db.rawQuery("Select * from Account where accountNo='" + accountNo+"';", null);
         resultSet.moveToFirst();
         if (resultSet.isAfterLast()) {
             throw new InvalidAccountException("Account No:" + accountNo + " is not valid!");

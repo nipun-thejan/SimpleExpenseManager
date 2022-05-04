@@ -1,5 +1,6 @@
 package lk.ac.mrt.cse.dbs.simpleexpensemanager.data.impl;
 
+import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -29,12 +30,12 @@ public class SQLiteTransactionDAO implements TransactionDAO {
 
     @Override
     public List<Transaction> getAllTransactionLogs() {
-        Cursor resultSet = db.rawQuery("Select * from Transactions",null);
+        @SuppressLint("Recycle") Cursor resultSet = db.rawQuery("Select * from Transactions",null);
         resultSet.moveToFirst();
-        List<Transaction> result = new ArrayList<Transaction>();
+        List<Transaction> result = new ArrayList<>();
         while(!resultSet.isAfterLast())
         {
-            result.add( new Transaction(new Date(resultSet.getString(3)),resultSet.getString(0),((resultSet.getString(1)=="INCOME")?ExpenseType.INCOME:ExpenseType.EXPENSE), Double.parseDouble(resultSet.getString(2) ) ));
+            result.add( new Transaction(new Date(resultSet.getString(3)),resultSet.getString(0),((resultSet.getString(1).equals("INCOME"))?ExpenseType.INCOME:ExpenseType.EXPENSE), Double.parseDouble(resultSet.getString(2) ) ));
             resultSet.moveToNext();
         }
         return result;
@@ -42,9 +43,9 @@ public class SQLiteTransactionDAO implements TransactionDAO {
 
     @Override
     public List<Transaction> getPaginatedTransactionLogs(int limit) {
-        Cursor resultSet = db.rawQuery("Select * from Transactions ORDER BY date_value LIMIT "+limit,null);
+        @SuppressLint("Recycle") Cursor resultSet = db.rawQuery("Select * from Transactions ORDER BY date_value LIMIT "+limit,null);
         resultSet.moveToFirst();
-        List<Transaction> result = new ArrayList<Transaction>();
+        List<Transaction> result = new ArrayList<>();
         while(!resultSet.isAfterLast())
         {
             result.add( new Transaction(new Date(resultSet.getString(3)),resultSet.getString(0),((resultSet.getString(1)=="INCOME")?ExpenseType.INCOME:ExpenseType.EXPENSE), Double.parseDouble(resultSet.getString(2) ) ));
