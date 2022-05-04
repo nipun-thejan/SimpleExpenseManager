@@ -16,6 +16,7 @@ import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.model.ExpenseType;
 public class SQLiteAccountDAO implements AccountDAO {
     SQLiteDatabase db;
     java.io.File filename = Constants.CONTEXT.getFilesDir();
+
     public SQLiteAccountDAO()
     {
         db = SQLiteDatabase.openOrCreateDatabase(filename.getAbsolutePath() + "/190184A.sqlite", null);
@@ -23,41 +24,41 @@ public class SQLiteAccountDAO implements AccountDAO {
     }
     @Override
     public List<String> getAccountNumbersList() {
-        @SuppressLint("Recycle") Cursor resultSet = db.rawQuery("Select accountNo from Account",null);
+        @SuppressLint("Recycle") Cursor result_db = db.rawQuery("Select accountNo from Account",null);
         List<String> result = new ArrayList<>();
-        resultSet.moveToFirst();
-        while(!resultSet.isAfterLast())
+        result_db.moveToFirst();
+        while(!result_db.isAfterLast())
         {
-            result.add(resultSet.getString(0));
-            resultSet.moveToNext();
+            result.add(result_db.getString(0));
+            result_db.moveToNext();
         }
         return result;
     }
 
     @Override
     public List<Account> getAccountsList() {
-        @SuppressLint("Recycle") Cursor resultSet = db.rawQuery("Select * from Account;",null);
+        @SuppressLint("Recycle") Cursor result_db = db.rawQuery("Select * from Account;",null);
         List<Account> result = new ArrayList<>();
-        resultSet.moveToFirst();
-        while(!resultSet.isAfterLast())
+        result_db.moveToFirst();
+        while(!result_db.isAfterLast())
         {
 
-            result.add( new Account(resultSet.getString(0),resultSet.getString(1),
-                    resultSet.getString(2), Double.parseDouble(resultSet.getString(3) ) ));
-            resultSet.moveToNext();
+            result.add( new Account(result_db.getString(0),result_db.getString(1),
+                    result_db.getString(2), Double.parseDouble(result_db.getString(3) ) ));
+            result_db.moveToNext();
         }
         return result;
     }
 
     @Override
     public Account getAccount(String accountNo) throws InvalidAccountException {
-        @SuppressLint("Recycle") Cursor resultSet = db.rawQuery("Select * from Account where accountNo='" + accountNo+"';", null);
-        resultSet.moveToFirst();
-        if (resultSet.isAfterLast()) {
+        @SuppressLint("Recycle") Cursor result_db = db.rawQuery("Select * from Account where accountNo='" + accountNo+"';", null);
+        result_db.moveToFirst();
+        if (result_db.isAfterLast()) {
             throw new InvalidAccountException("Account No:" + accountNo + " is not valid!");
         }
-        return new Account(resultSet.getString(0), resultSet.getString(1), resultSet.getString(2),
-                Double.parseDouble(resultSet.getString(3)));
+        return new Account(result_db.getString(0), result_db.getString(1), result_db.getString(2),
+                Double.parseDouble(result_db.getString(3)));
     }
 
     @Override

@@ -30,26 +30,26 @@ public class SQLiteTransactionDAO implements TransactionDAO {
 
     @Override
     public List<Transaction> getAllTransactionLogs() {
-        @SuppressLint("Recycle") Cursor resultSet = db.rawQuery("Select * from Transactions",null);
-        resultSet.moveToFirst();
+        @SuppressLint("Recycle") Cursor result_db = db.rawQuery("Select * from Transactions",null);
+        result_db.moveToFirst();
         List<Transaction> result = new ArrayList<>();
-        while(!resultSet.isAfterLast())
+        while(!result_db.isAfterLast())
         {
-            result.add( new Transaction(new Date(resultSet.getString(3)),resultSet.getString(0),((resultSet.getString(1).equals("INCOME"))?ExpenseType.INCOME:ExpenseType.EXPENSE), Double.parseDouble(resultSet.getString(2) ) ));
-            resultSet.moveToNext();
+            result.add( new Transaction(new Date(result_db.getString(3)),result_db.getString(0),((result_db.getString(1).equals("INCOME"))?ExpenseType.INCOME:ExpenseType.EXPENSE), Double.parseDouble(result_db.getString(2) ) ));
+            result_db.moveToNext();
         }
         return result;
     }
 
     @Override
     public List<Transaction> getPaginatedTransactionLogs(int limit) {
-        @SuppressLint("Recycle") Cursor resultSet = db.rawQuery("Select * from Transactions ORDER BY date_value LIMIT "+limit,null);
-        resultSet.moveToFirst();
+        @SuppressLint("Recycle") Cursor result_db = db.rawQuery("Select * from Transactions ORDER BY date_value LIMIT "+limit,null);
+        result_db.moveToFirst();
         List<Transaction> result = new ArrayList<>();
-        while(!resultSet.isAfterLast())
+        while(!result_db.isAfterLast())
         {
-            result.add( new Transaction(new Date(resultSet.getString(3)),resultSet.getString(0),((resultSet.getString(1)=="INCOME")?ExpenseType.INCOME:ExpenseType.EXPENSE), Double.parseDouble(resultSet.getString(2) ) ));
-            resultSet.moveToNext();
+            result.add( new Transaction(new Date(result_db.getString(3)),result_db.getString(0),((result_db.getString(1)=="INCOME")?ExpenseType.INCOME:ExpenseType.EXPENSE), Double.parseDouble(result_db.getString(2) ) ));
+            result_db.moveToNext();
         }
         return result;
     }

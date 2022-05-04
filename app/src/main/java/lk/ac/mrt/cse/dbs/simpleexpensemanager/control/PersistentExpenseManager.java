@@ -7,6 +7,11 @@ import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.impl.SQLiteTransactionDAO;
 import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.model.Account;
 
 public class PersistentExpenseManager extends ExpenseManager{
+
+    public PersistentExpenseManager() {
+        setup();
+    }
+
     @Override
     public void setup() {
         AccountDAO sqliteMemoryAccountDAO = new SQLiteAccountDAO();
