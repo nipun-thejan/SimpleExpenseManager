@@ -30,6 +30,8 @@ import lk.ac.mrt.cse.dbs.simpleexpensemanager.R;
 import lk.ac.mrt.cse.dbs.simpleexpensemanager.control.ExpenseManager;
 import lk.ac.mrt.cse.dbs.simpleexpensemanager.control.InMemoryDemoExpenseManager;
 import lk.ac.mrt.cse.dbs.simpleexpensemanager.control.PersistentExpenseManager;
+import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.impl.SQLiteAccountDAO;
+import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.impl.SQLiteTransactionDAO;
 
 public class MainActivity extends AppCompatActivity {
     private ExpenseManager expenseManager;
@@ -68,8 +70,8 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
 
         /***  Begin generating dummy data for In-Memory implementation  ***/
-        // expenseManager = new InMemoryDemoExpenseManager();
-        expenseManager = new PersistentExpenseManager();
+        //expenseManager = new InMemoryDemoExpenseManager();
+        expenseManager = new PersistentExpenseManager(new SQLiteAccountDAO(this), new SQLiteTransactionDAO(this));
         /*** END ***/
     }
 
