@@ -37,14 +37,14 @@ public class SQLiteDAOTest {
 
     @Test
     public void A_addAccount() {
-        Account account = new Account("1901", "BOC", "thejan", 500);
+        Account account = new Account("19999", "BOC", "thejan", 500);
         boolean result = accountDAO.addAccount(account);
         assertThat(result).isTrue();
     }
 
     @Test
     public void B_getAccount() throws InvalidAccountException {
-        Account account = accountDAO.getAccount("1901");
+        Account account = accountDAO.getAccount("19999");
 
         boolean result = false;
         if (account != null) {
